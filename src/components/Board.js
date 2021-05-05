@@ -2,11 +2,11 @@ import React from 'react';
 import Square from './Square';
 import './board.css'
 
-const Board = ({ tiles, handleClick }) => {
+const Board = ({ tiles, handleClick, squares }) => {
     return (
         <div className="Board">
             <div className="Row">
-                <Square pos={0} value={tiles[0]} handleOnClick={handleClick} />
+                <Square pos={0} value={tiles[0]} squares={history}  handleOnClick={handleClick} />
                 <Square pos={1} value={tiles[1]} handleOnClick={handleClick} />
                 <Square pos={2} value={tiles[2]} handleOnClick={handleClick} />
             </div>

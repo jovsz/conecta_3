@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Board from './Board';
 
-let champion = '';
 const calculateWinner = (board) => {
     
     const winningPositions = [
@@ -18,30 +17,35 @@ const calculateWinner = (board) => {
     for(let i = 0; i < winningPositions.length; i++) {
         const [a,b,c] = winningPositions[i];
         if(board[a] && board[a] === board[b] && board[a] === board[c]){
-            champion = board[a];
-            return true;
-
+            return board[a];
         }
-
     }
-    console.log(champion);
+    
     return null;
 };
 
 const Game = () => {
     const [board,setBoard] = useState(new Array(9).fill(null));
     const [isXNext, setIsXNext] = useState(true);
+    const [history, setHistory] = useState([Array(9).fill(null)]);
+    const [stepNumber, setStepNumber] = useState(0);
+     
 
     const handleClickBoard = pos => {
         const copy = board.slice();
+        const moves = history.slice(0, stepNumber + 1);
+        const current = moves[stepNumber];
+        const squares = [...current]
         const winner = calculateWinner(copy);
-        if(winner){
-            console.log('ganador: ' + champion);
+        if(winner || squares[pos]){
             return;
         }
         copy[pos] = isXNext ? 'X' : 'O'
         setBoard(copy)
         setIsXNext(!isXNext)
+        squares[pos] = copy[pos];
+        setHistory([...moves, squares])
+        setStepNumber(moves.length);
     }
 
     return <Board tiles={board} handleClick ={handleClickBoard} />;
